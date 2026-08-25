@@ -407,6 +407,7 @@ $env:WINGET_PROXY_PREFIX = 'https://gh.你的域名.com/'
 | Actions 里某包 FAIL: missing | 上游无此 ID 或已改名/下架，核对 `winget search` 结果与 sync-report.json |
 | Actions 里某包 FAIL: no-version | 上游该包暂无数字版本目录（常见于只有预览版的包），CI 会自动重试次日数据 |
 | Pages 已更新但搜索结果没变 | 客户端缓存，执行 `winget source update --name subset` |
+| `winget upgrade` 报 `0x8a15003f 源数据已损坏或被篡改`（升级列表能正常列出） | 本机源索引缓存过期：旧索引里的清单哈希与服务器最新清单不一致（部署更新后必现）。执行 `winget source update --name subset` 强制刷新缓存即可，非数据损坏 |
 | 定时任务没跑 | 确认 Actions 已启用、工作流在默认分支上；60 天无仓库活动时 GitHub 会暂停 schedule，手动触发一次即恢复 |
 | workers.dev / pages.dev 地址打不开 | 正常现象，这两个默认域名在国内被 DNS 污染。按 Step 1 / Step 7 绑定自有域名后使用 |
 

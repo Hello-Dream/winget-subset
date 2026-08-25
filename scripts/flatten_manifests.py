@@ -66,6 +66,9 @@ def flattenVersionDir(versionDir):
         return None, f'缺少 DefaultLocale={defaultLocale} 对应的 locale 清单'
 
     merged = {}
+    # 以 installer 清单为基底：其顶层 InstallerType/InstallerSwitches/ExpectedReturnCodes/
+    # AppsAndFeaturesEntries 等是安装必需字段，仅取 Installers 会全部丢失导致客户端按 unknown 类型安装失败
+    merged.update(installerData)
     merged.update(versionData)
     merged.update(localeData)
     merged['Installers'] = installerData.get('Installers', [])
