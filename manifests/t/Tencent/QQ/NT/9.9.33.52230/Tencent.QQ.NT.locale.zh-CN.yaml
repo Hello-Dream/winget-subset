@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Tencent.QQ.NT
-PackageVersion: 9.9.31.49738
+PackageVersion: 9.9.33.52230
 PackageLocale: zh-CN
 Publisher: Tencent
 PublisherUrl: https://im.qq.com/
@@ -30,6 +30,15 @@ Tags:
 - 聊天
 - 语音
 - 通话
+ReleaseNotes: |-
+  本次更新：
+  - 录屏体验升级，支持截取 MP4、GIF 片段；
+  - 优化消息提醒能力，好友通知、群通知及时知晓；
+  - 修复了一些已知问题。
+  近期更新：
+  - 截图体验升级，长截图支持编辑裁剪；
+  - 新增「戳一戳」互动，让聊天更有趣；
+  - 新增「语音输入文字」功能，输入更高效。
 ReleaseNotesUrl: https://im.qq.com/pcqq/support.html
 PurchaseUrl: https://vip.qq.com/
 Documentations:
