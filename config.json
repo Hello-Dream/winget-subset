@@ -1,0 +1,8 @@
+{
+    "keepVersions": 3,
+    "upstreamRepo": "https://github.com/microsoft/winget-pkgs",
+    "pagesProject": "winget-subset",
+    "sourceName": "subset",
+    "publisherDn": "CN=winget-subset Source",
+    "timestampServer": "http://timestamp.digicert.com"
+}

@@ -1,0 +1,25 @@
+# winget 子集包列表 —— 每行一个 PackageIdentifier，# 后为注释
+# 分类说明:
+#   [proxy]  安装器托管在 GitHub，同步时自动加代理前缀（需在 config.json 配置 proxyPrefix）
+#   [direct] 安装器在国内可达 CDN，原样保留直连
+
+# ===== 走代理（GitHub 发布）=====
+ImputNet.Helium               # [proxy] Helium 浏览器
+M2Team.NanaZip                # [proxy] NanaZip
+Notepad++.Notepad++           # [proxy] Notepad++
+Obsidian.Obsidian             # [proxy] Obsidian
+Eugeny.Tabby                   # [proxy] Tabby 终端
+
+# ===== 直连（国内 CDN）=====
+Alibaba.DingTalk.Mainland     # [direct] 钉钉
+Tencent.QQ.NT                 # [direct] QQ NT
+Tencent.QQMusic               # [direct] QQ音乐
+Tencent.TencentMeeting        # [direct] 腾讯会议
+Tencent.WeChat.Universal      # [direct] 微信
+Baidu.BaiduNetdisk            # [direct] 百度网盘
+
+# ===== 直连（国外但国内可达）=====
+JetBrains.Toolbox             # [direct] download.jetbrains.com
+TortoiseGit.TortoiseGit       # [direct] download.tortoisegit.org
+BellSoft.LibericaJDK.25.Full  # [direct] download.bell-sw.com
+Mozilla.Thunderbird.zh-CN     # [direct] Mozilla CDN

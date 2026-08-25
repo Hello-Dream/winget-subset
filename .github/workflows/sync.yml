@@ -1,0 +1,216 @@
+name: sync-upstream
+
+on:
+  schedule:
+    - cron: '0 21 * * *' # UTC 21:00 = 北京时间 05:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync-build-publish:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      SIGNING_PFX: ${{ secrets.SIGNING_PFX }}
+      SIGNING_PFX_PASSWORD: ${{ secrets.SIGNING_PFX_PASSWORD }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      WINGET_PROXY_PREFIX: ${{ secrets.WINGET_PROXY_PREFIX }}
+      # 可选：源站自定义域名（不入库）。未配置则自测回退 <pagesProject>.pages.dev
+      WINGET_SOURCE_HOST: ${{ secrets.WINGET_SOURCE_HOST }}
+      PYTHONUTF8: '1' # windows runner 默认 cp1252，中文日志会崩
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 打包工具跨运行缓存：命中时构建零下载零解压
+      - uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/winget-sdktools
+          key: winget-sdktools-${{ github.run_id }}
+          restore-keys: winget-sdktools-
+
+      - name: 同步上游清单
+        run: python scripts/sync_manifests.py
+
+      - name: 构建源索引包
+        shell: pwsh
+        env:
+          WINGET_SDK_TOOLS_DIR: ${{ runner.temp }}/winget-sdktools # runner 上下文仅步骤级可用
+        run: .\scripts\build_source.ps1
+
+      - name: 校验索引与清单（canary 必须在索引内）
+        shell: pwsh
+        run: python scripts/validate_manifests.py --check-index --canary Obsidian.Obsidian
+
+      - name: 部署到 Pages 并配置域名与缓存
+        shell: pwsh
+        run: |
+          $config = Get-Content config.json -Raw | ConvertFrom-Json
+          $project = $config.pagesProject
+          $headers = @{ Authorization = "Bearer $($env:CLOUDFLARE_API_TOKEN)" }
+          $apiBase = "https://api.cloudflare.com/client/v4/accounts/$($env:CLOUDFLARE_ACCOUNT_ID)/pages/projects"
+
+          # 新版 wrangler 不再隐式创建项目
+          if (@((Invoke-RestMethod -Uri $apiBase -Headers $headers).result).name -notcontains $project) {
+            Write-Host "Pages 项目 '$project' 不存在，自动创建..."
+            Invoke-RestMethod -Method Post -Uri $apiBase -Headers $headers -ContentType 'application/json' `
+              -Body (@{ name = $project; production_branch = 'main' } | ConvertTo-Json) | Out-Null
+          }
+          npx --yes wrangler@4 pages deploy dist/pages --project-name $project --branch main
+
+          if (-not $env:WINGET_SOURCE_HOST) { Write-Host '未配置自定义源域名，跳过域名与缓存配置'; exit 0 }
+          # 派生串不在 Secret 原值遮蔽范围内，必须先 add-mask；报错一律不回显域名
+          $hostName = ($env:WINGET_SOURCE_HOST -replace '^https?://', '').TrimEnd('/').ToLower()
+          Write-Output "::add-mask::$hostName"
+          $domainsUri = "$apiBase/$project/domains"
+          if (@((Invoke-RestMethod -Uri $domainsUri -Headers $headers).result).name -notcontains $hostName) {
+            Write-Host '为 Pages 项目绑定源域名（同账号 Zone 时 CNAME 自动创建）...'
+            Invoke-RestMethod -Method Post -Uri $domainsUri -Headers $headers -ContentType 'application/json' `
+              -Body (@{ name = $hostName } | ConvertTo-Json) | Out-Null
+          } else {
+            Write-Host '源域名已绑定，跳过'
+          }
+
+          try {
+            $zones = (Invoke-RestMethod -Uri 'https://api.cloudflare.com/client/v4/zones?per_page=50' -Headers $headers).result
+          } catch { throw '查询 Zone 列表失败：请给 CF_API_TOKEN 增加 Zone/Zone/Read 权限' }
+          $zone = (($hostName -split '\.' | Where-Object { $_ }) | Select-Object -Last 2) -join '.'
+          Write-Output "::add-mask::$zone"
+          $zoneObj = @($zones) | Where-Object name -eq $zone
+          if (-not $zoneObj) {
+            throw ('Token 可见 Zone 共 ' + @($zones).Count + ' 个，均不含源域名主域。请检查：' +
+              '1) 域名已添加进该 Cloudflare 账号且状态为活动；' +
+              '2) 创建 CF_API_TOKEN 时 Zone Resources 选了 All zones（或勾选了该域名）')
+          }
+
+          # 缓存规则等价于控制台「主机名=源域名 -> 符合缓存条件 -> 边缘 TTL 忽略源站 2 小时」。
+          # 必须：Pages 静态资源不支持 Range(206)，分段下载需由边缘节点代答
+          $entryUri = "https://api.cloudflare.com/client/v4/zones/$($zoneObj[0].id)/rulesets/phases/http_request_cache_settings/entrypoint"
+          $ruleDesc = 'managed-by-winget-subset-ci'
+          $existing = @()
+          try {
+            $entry = Invoke-RestMethod -Uri $entryUri -Headers $headers
+            if ($entry -and $entry.result -and $entry.result.rules) {
+              # 只投影可写字段回写；过滤空元素（result 为 null 时会混入全 null 的假规则）
+              $existing = @(foreach ($r in @($entry.result.rules)) {
+                if ($r -and $r.expression) {
+                  @{ description = $r.description; expression = $r.expression; action = $r.action;
+                     action_parameters = $r.action_parameters
+                     enabled = $(if ($null -ne $r.enabled) { $r.enabled } else { $true }) }
+                }
+              })
+            }
+          } catch { }
+          if (@($existing).description -contains $ruleDesc) {
+            Write-Host '缓存规则已存在，跳过'
+          } else {
+            Write-Host '创建源域名缓存规则...'
+            $finalRules = @(@($existing) + @{
+              description       = $ruleDesc
+              expression        = "http.host eq `"$hostName`""
+              action            = 'set_cache_settings'
+              action_parameters = @{ cache = $true; edge_ttl = @{ mode = 'override_origin'; default = 7200 } }
+              enabled           = $true
+            })
+            if (@($finalRules | Where-Object { -not $_.expression -or -not $_.action })) {
+              throw '中止：待写入的缓存规则缺少 expression/action，请检查日志'
+            }
+            $rulesJson = ConvertTo-Json -InputObject $finalRules -Depth 10
+            Invoke-RestMethod -Method Put -Uri $entryUri -Headers $headers `
+              -ContentType 'application/json' -Body ('{"rules": ' + $rulesJson + '}') | Out-Null
+            Write-Host '缓存规则已创建，生效需数分钟，自测步骤会自动等待'
+          }
+
+          Invoke-RestMethod -Method Post `
+            -Uri "https://api.cloudflare.com/client/v4/zones/$($zoneObj[0].id)/purge_cache" `
+            -Headers $headers -ContentType 'application/json' -Body '{"purge_everything":true}' | Out-Null
+          Write-Host '已清除源域名边缘缓存'
+
+      - name: 端到端自测（导入证书 -> 添加源 -> 经代理安装）
+        shell: pwsh
+        run: |
+          $config = Get-Content config.json -Raw | ConvertFrom-Json
+          $pfxPath = Join-Path $env:RUNNER_TEMP 'source-signing.pfx'
+          [IO.File]::WriteAllBytes($pfxPath, [Convert]::FromBase64String($env:SIGNING_PFX))
+          $pfxPassword = ('' + $env:SIGNING_PFX_PASSWORD).Trim()
+          $cert = Import-PfxCertificate -FilePath $pfxPath `
+              -CertStoreLocation Cert:\CurrentUser\My `
+              -Password (ConvertTo-SecureString $pfxPassword -AsPlainText -Force)
+          $cerPath = Join-Path $env:RUNNER_TEMP 'source.cer'
+          Export-Certificate -Cert $cert -FilePath $cerPath | Out-Null
+          Import-Certificate -FilePath $cerPath -CertStoreLocation Cert:\LocalMachine\TrustedPeople | Out-Null
+
+          $pagesUrl = if ($env:WINGET_SOURCE_HOST) { "https://$($env:WINGET_SOURCE_HOST)" } else { "https://$($config.pagesProject).pages.dev" }
+          # 就绪判定 = 边缘返回内容与本次构建逐字节一致（SHA256 对比），
+          # 同时消化部署传播与清缓存延迟，避免把旧索引进给 winget 造成误导性报错
+          $localHash = (Get-FileHash (Join-Path $env:GITHUB_WORKSPACE 'dist\source.msix') -Algorithm SHA256).Hash
+          $ready = $false
+          foreach ($attempt in 1..20) {
+            try {
+              $probeFile = Join-Path $env:RUNNER_TEMP 'probe.msix'
+              Invoke-WebRequest -Uri "$pagesUrl/source.msix" -OutFile $probeFile `
+                  -Headers @{ 'Cache-Control' = 'no-cache'; 'Pragma' = 'no-cache' } -ErrorAction Stop
+              if ((Get-FileHash $probeFile -Algorithm SHA256).Hash -eq $localHash) {
+                $ready = $true
+                break
+              }
+              Write-Host "[第 $attempt 次] 边缘仍是旧索引，等待清缓存传播..."
+            } catch {
+              Write-Host "[第 $attempt 次] 尚未就绪: $($_.Exception.Message)"
+            }
+            Start-Sleep -Seconds 15
+          }
+          if (-not $ready) { throw "Pages 站点未就绪: $pagesUrl/source.msix" }
+
+          $src = $config.sourceName
+          # 失败时脱敏后倾倒 winget 详细日志，定位真实报错（域名绝不入日志）
+          function Dump-WingetLog {
+            $dir = "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\DiagOutputDir"
+            $log = Get-ChildItem $dir -Filter '*.log' -ErrorAction SilentlyContinue |
+              Sort-Object LastWriteTime | Select-Object -Last 1
+            if (-not $log) { Write-Host '(无 winget 日志)'; return }
+            Write-Host "--- winget 日志尾部: $($log.Name) ---"
+            $text = Get-Content $log.FullName -Tail 80 | Out-String
+            foreach ($secret in @($env:WINGET_SOURCE_HOST,
+                ($env:WINGET_SOURCE_HOST -replace '^https?://', '').TrimEnd('/'),
+                ($env:WINGET_PROXY_PREFIX -replace '^https?://', '').TrimEnd('/'))) {
+              if ($secret) { $text = $text.Replace($secret, '***') }
+            }
+            Write-Host $text
+          }
+
+          $added = $false
+          foreach ($attempt in 1..10) {
+            winget source remove --name $src 2>$null
+            winget source add --name $src --arg $pagesUrl --type 'Microsoft.PreIndexed.Package' `
+                --accept-source-agreements
+            if ($LASTEXITCODE -eq 0) { $added = $true; break }
+            Write-Host "source add 失败(exit=$LASTEXITCODE)，60 秒后重试（$attempt/10）"
+            Start-Sleep -Seconds 60
+          }
+          if (-not $added) { Dump-WingetLog; throw 'winget source add 重试 10 次仍失败' }
+          Write-Host '--- winget show ---'
+          winget show --verbose-logs --id Obsidian.Obsidian --source $src
+          if ($LASTEXITCODE -ne 0) { Dump-WingetLog; throw "端到端自测失败 (exit=$LASTEXITCODE)" }
+          winget source remove --name $src
+
+      - name: 提交同步结果
+        shell: pwsh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add manifests/
+          $changed = git diff --cached --name-only
+          if (-not $changed) { Write-Host '清单无变更，跳过提交'; exit 0 }
+          git commit -m "chore(sync): 同步上游清单 $(Get-Date -Format 'yyyy-MM-dd')"
+          git push

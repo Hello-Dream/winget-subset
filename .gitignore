@@ -1,0 +1,11 @@
+.cache/
+dist/
+__pycache__/
+*.pyc
+*.pfx
+SIGNING_PFX.txt
+SIGNING_PFX_PASSWORD.txt
+winget-subset.cer
+version.txt
+.wrangler/
+node_modules/

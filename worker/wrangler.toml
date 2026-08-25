@@ -1,0 +1,12 @@
+name = "gh-proxy"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+# 强烈建议绑定自有域名后使用 —— *.workers.dev 在国内被 DNS 污染，基本不可达。
+# 前提: 域名已 NS 方式托管在同一 Cloudflare 账号；
+# custom_domain = true 会自动创建 DNS 记录并签发证书。
+# routes = [
+#     { pattern = "gh.你的域名.com", custom_domain = true },
+# ]
+
+# 使用: https://<绑定的域名>/https://github.com/<owner>/<repo>/releases/download/...
