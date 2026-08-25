@@ -87,7 +87,8 @@ python (Join-Path $repoRoot 'scripts\build_index.py') `
 if ($LASTEXITCODE -ne 0) { throw 'index.db 构建失败' }
 
 # ---------- 3. 组装包内容 ----------
-Copy-Item (Join-Path $repoRoot 'source-tpl\*') $stageDir -Recurse -Force
+# _headers 仅用于 Pages 部署（客户端缓存策略），排除在 msix 之外
+Copy-Item (Join-Path $repoRoot 'source-tpl\*') $stageDir -Recurse -Force -Exclude '_headers'
 
 # 版本号由时间戳派生，保证每次构建单调递增触发客户端更新
 $epoch = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
@@ -125,6 +126,7 @@ Remove-Item -Recurse -Force $pagesDir -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $pagesDir | Out-Null
 Copy-Item (Join-Path $distDir 'source.msix') $pagesDir
 Copy-Item $flatDir (Join-Path $pagesDir 'manifests') -Recurse
+Copy-Item (Join-Path $repoRoot 'source-tpl\_headers') $pagesDir
 
 # ---------- 6. 离线校验: 索引与清单一致性（失败即停，避免把坏源部署上线）----------
 python (Join-Path $repoRoot 'scripts\validate_manifests.py') `

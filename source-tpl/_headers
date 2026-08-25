@@ -1,0 +1,8 @@
+# 客户端强制重新验证（配合 ETag），避免 winget 的 WinINet 缓存 4 小时内命中旧索引/旧清单
+# 边缘缓存由 Cloudflare Cache Rule 的 Edge TTL 独立控制（s-maxage），不受此头影响，Range/206 支持不变
+/source.msix
+  Cache-Control: public, max-age=0, must-revalidate
+/source2.msix
+  Cache-Control: public, max-age=0, must-revalidate
+/manifests/*
+  Cache-Control: public, max-age=0, must-revalidate

@@ -305,6 +305,10 @@ curl.exe -sI -H "Range: bytes=0-1023" https://winget.你的域名.com/source.msi
 
 **副作用与维护**：边缘缓存意味着每次部署后，客户端最多延迟 2 小时才能读到新索引；
 但 CI 在部署完成后会自动清除该域名的边缘缓存，走 CI 无需关心。
+且 `source.msix`/`manifests/*` 已通过 `_headers` 设置 `max-age=0, must-revalidate`，
+客户端（含 winget 的 WinINet 缓存）每次都会携带 ETag 向边缘重新验证 —— 部署后客户端
+执行一次 `winget source update --name subset` 即可立即读到新内容，不会因响应头 max-age
+在数小时内命中旧索引。
 若你在本地手动构建部署又想立即生效，可在
 **Caching → Overview（概述） → Purge Cache（清除缓存）** 中一键清除，
 或在客户端执行 `winget source update --name subset` 强制刷新。

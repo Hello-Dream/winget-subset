@@ -49,6 +49,7 @@ python3 scripts/build_index.py --manifests manifests --output dist/stage/Public/
 ## 结构与约定
 
 - **Cloudflare Pages 静态资源不支持 Range 请求**（对 `Range` 头回 200 全量而非 206），而 winget 流式拉取 `source.msix` 强制依赖 206，否则报出误导性错误（表面 404 实为解析失败 0x8051100F）。因此源域名必须配 Cache Rule（符合缓存条件 + 忽略源站 TTL，CI 每次部署自动创建），CI 自测域名走 Secret `WINGET_SOURCE_HOST`（不入库），部署后有自动 purge 步骤。排查此类问题用 `--verbose-logs` 看真实失败原因。
+- **客户端陈旧缓存**：`source-tpl/_headers` 给 `source.msix`/`manifests/*` 设 `Cache-Control: max-age=0, must-revalidate`（配合 ETag 强制重新验证），防止 winget 的隔离 WinINet 缓存（`%LOCALAPPDATA%\Packages\Microsoft.DesktopAppInstaller_*\AC\INetCache`）按 max-age 把旧索引/清单缓存数小时——曾导致部署后 `source update` 仍命中旧包（0x8a15003f / 0x80070032 表象）。`_headers` 只复制进 `dist/pages`，不进 msix；边缘缓存由 Cache Rule 的 Edge TTL 独立控制不受影响。若客户端仍陈旧，删除该 `AC\INetCache` 目录后重新 `source update`。
 - 新版 winget 添加 PreIndexed 源时先探测 `source2.msix` 再回退 `source.msix`，且最终只报**第一个**异常 —— 日志里的 404 可能只是表象，要看每个 location 各自的错误。
 - 客户端 `winget source add` 报 `0x8a15003f 源数据已损坏或被篡改` = 该机未信任自签签名证书，跑 `scripts/install-source-cert.ps1` 导入 `Root` + `TrustedPeople`（MSIX 包签名校验走 TrustedPeople，`Get-AuthenticodeSignature` 只查 Root，二者缺一不可，故脚本两者都导）。
 - `packages.txt`：一行一个包 ID，`#` 为行内注释；`[proxy]`/`[direct]` 标记只是给人看的说明，脚本不解析。
