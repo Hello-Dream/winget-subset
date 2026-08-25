@@ -8,7 +8,8 @@ ImputNet.Helium               # [proxy] Helium 浏览器
 M2Team.NanaZip                # [proxy] NanaZip
 Notepad++.Notepad++           # [proxy] Notepad++
 Obsidian.Obsidian             # [proxy] Obsidian
-Eugeny.Tabby                   # [proxy] Tabby 终端
+Eugeny.Tabby                  # [proxy] Tabby 终端
+Bitwarden.Bitwarden           # [proxy] Bitwarden
 
 # ===== 直连（国内 CDN）=====
 Alibaba.DingTalk.Mainland     # [direct] 钉钉
