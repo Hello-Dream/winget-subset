@@ -18,6 +18,7 @@ Tencent.QQMusic               # [direct] QQ音乐
 Tencent.TencentMeeting        # [direct] 腾讯会议
 Tencent.WeChat.Universal      # [direct] 微信
 Baidu.BaiduNetdisk            # [direct] 百度网盘
+Ruihu.Apifox                  # [direct] Apifox
 
 # ===== 直连（国外但国内可达）=====
 JetBrains.Toolbox             # [direct] download.jetbrains.com
