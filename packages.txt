@@ -25,3 +25,4 @@ JetBrains.Toolbox             # [direct] download.jetbrains.com
 TortoiseGit.TortoiseGit       # [direct] download.tortoisegit.org
 BellSoft.LibericaJDK.25.Full  # [direct] download.bell-sw.com
 Mozilla.Thunderbird.zh-CN     # [direct] Mozilla CDN
+Microsoft.VisualStudioCode    # [direct] Vscode
