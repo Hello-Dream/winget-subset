@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Baidu.BaiduNetdisk
-PackageVersion: 8.6.8
+PackageVersion: 8.7.9
 PackageLocale: zh-CN
 Publisher: 北京度友科技有限公司
 PublisherUrl: https://www.baidu.com/
@@ -32,7 +32,7 @@ Tags:
 - 网盘
 ReleaseNotes: |-
   1. 百度网盘全新升级
-  2. 优化团队空间用户使用体验
+  2. 【团队空间】空间布局全新改版，新增大图视图模式，并支持视频的滑动预览
 PurchaseUrl: https://pan.baidu.com/buy/center
 ManifestType: defaultLocale
 ManifestVersion: 1.12.0
