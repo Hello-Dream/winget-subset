@@ -10,6 +10,7 @@ Notepad++.Notepad++           # [proxy] Notepad++
 Obsidian.Obsidian             # [proxy] Obsidian
 Eugeny.Tabby                  # [proxy] Tabby 终端
 Bitwarden.Bitwarden           # [proxy] Bitwarden
+ClashVergeRev.ClashVergeRev   # [proxy] Clash Verge Rev
 
 # ===== 直连（国内 CDN）=====
 Alibaba.DingTalk.Mainland     # [direct] 钉钉
