@@ -2,23 +2,23 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: Ruihu.Apifox
-PackageVersion: 2.8.42
+PackageVersion: 2.8.45
 InstallerType: nullsoft
 InstallerSwitches:
   Upgrade: --updated
 UpgradeBehavior: install
-ReleaseDate: 2026-08-07
+ReleaseDate: 2026-08-29
 Installers:
 - Architecture: x64
   Scope: user
-  InstallerUrl: https://file-assets.apifox.com/download/2.8.42/Apifox-2.8.42.exe
-  InstallerSha256: 41C38310355A3E16B1547064F0E13A6D18F48024B5F47F491C060BD7D1A44B4F
+  InstallerUrl: https://file-assets.apifox.com/download/2.8.45/Apifox-2.8.45.exe
+  InstallerSha256: 86013B723167B84988F047549BE8D0CABFAF4ACE3353690FE5EE12C3CF8D2DBA
   InstallerSwitches:
     Custom: /currentuser
 - Architecture: x64
   Scope: machine
-  InstallerUrl: https://file-assets.apifox.com/download/2.8.42/Apifox-2.8.42.exe
-  InstallerSha256: 41C38310355A3E16B1547064F0E13A6D18F48024B5F47F491C060BD7D1A44B4F
+  InstallerUrl: https://file-assets.apifox.com/download/2.8.45/Apifox-2.8.45.exe
+  InstallerSha256: 86013B723167B84988F047549BE8D0CABFAF4ACE3353690FE5EE12C3CF8D2DBA
   InstallerSwitches:
     Custom: /allusers
 ManifestType: installer
