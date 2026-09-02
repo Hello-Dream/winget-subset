@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Tencent.TencentMeeting
-PackageVersion: 3.45.1.478
+PackageVersion: 3.45.10.411
 PackageLocale: en-US
 Publisher: Tencent Technology (Shenzhen) Co. Ltd.
 Author: Shenzhen Tencent Computer Systems Company Limited
