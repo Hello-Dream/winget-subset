@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Microsoft.VisualStudioCode
-PackageVersion: 1.134.0
+PackageVersion: 1.136.1
 PackageLocale: en-US
 Publisher: Microsoft Corporation
 PublisherUrl: https://www.microsoft.com/
@@ -16,5 +16,6 @@ Moniker: vscode
 Tags:
 - developer-tools
 - editor
+ReleaseNotesUrl: https://code.visualstudio.com/updates/v1_136
 ManifestType: defaultLocale
 ManifestVersion: 1.12.0

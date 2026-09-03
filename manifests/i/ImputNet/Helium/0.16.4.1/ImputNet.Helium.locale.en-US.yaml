@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: ImputNet.Helium
-PackageVersion: 0.15.7.1
+PackageVersion: 0.16.4.1
 PackageLocale: en-US
 Publisher: The Helium Authors
 PublisherUrl: https://imput.net/
@@ -27,23 +27,17 @@ Tags:
 ReleaseNotes: |-
   Changes since last build:
   helium-windows
-  332bb0b update: helium 0.15.7.1 (#357)
+  729aa3a update: helium 0.16.4.1 (#365)
   helium-chromium
-  971d367d revision: bump to 7 (#2381)
-  208a56ba helium/ui: show tabs from non-account sync backends (#2373)
-  8eb7fa4d helium/core/sync: clean up stale history when it expires (#2374)
-  e863b7ec helium/core/sync: add NOTREACHED() to all enum mapper functions (#2372)
-  dece6b23 helium/core/sync: name vault structural limits precisely (#2368)
-  4fb8387b helium/core/sync: use chromium ownership helpers in vault encryption (#2369)
-  8fcd982b helium/core/sync: connect private vaults to the sync engine (#2360)
-  e01cfb2b helium/core/sync: support in-memory LoopbackServer (#2359)
-  c8984fef merge: update to chromium 151.0.7922.173 (#2358)
-  9271df7d patches: refresh for chromium 151.0.7922.173
-  8bcc721a merge: update ungoogled-chromium to 151.0.7922.173
-  26079057 helium/onboarding: bump version, permit kOther (#2357)
-  4087f48e Update to Chromium 151.0.7922.173
+  00bb44b0 revision: bump to 4 (#2429)
+  c4045414 merge: update to chromium 152.0.7977.75 (#2428)
+  0e5141be patches: refresh for chromium 152.0.7977.75
+  3d3397a3 merge: update ungoogled-chromium to 152.0.7977.75
+  cacf0f0f Update to Chromium 152.0.7977.75
+  9c8ac88b helium/settings: define private sync setup contract (#2416)
+  3eadaaca helium/core/sync: disable Google-backed sync integrations (#2415)
 
   See this GitHub Actions Run for the Workflow file used as well as the build logs and artifacts
-ReleaseNotesUrl: https://github.com/imputnet/helium-windows/releases/tag/0.15.7.1
+ReleaseNotesUrl: https://github.com/imputnet/helium-windows/releases/tag/0.16.4.1
 ManifestType: defaultLocale
 ManifestVersion: 1.12.0
