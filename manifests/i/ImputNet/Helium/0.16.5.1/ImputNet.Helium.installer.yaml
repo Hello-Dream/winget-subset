@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: ImputNet.Helium
-PackageVersion: 0.16.2.1
+PackageVersion: 0.16.5.1
 InstallerType: nullsoft
 InstallModes:
 - interactive
@@ -36,28 +36,28 @@ FileExtensions:
 - xht
 - xhtml
 ProductCode: imput Helium
-ReleaseDate: 2026-08-28
+ReleaseDate: 2026-09-05
 AppsAndFeaturesEntries:
 - InstallerType: exe
 Installers:
 - Architecture: x64
   Scope: user
-  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.2.1/helium_0.16.2.1_x64-installer.exe
-  InstallerSha256: 5A0068D0FE5BE6C4AF66B401A71EF5C625EB7E9FF6F6EE742A6508B66D7A2680
+  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.5.1/helium_0.16.5.1_x64-installer.exe
+  InstallerSha256: C2E0E69B0FA8329A0E548117CCAE0DBE6612993E0EB9DF3150C217C80D2BB532
 - Architecture: x64
   Scope: machine
-  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.2.1/helium_0.16.2.1_x64-installer.exe
-  InstallerSha256: 5A0068D0FE5BE6C4AF66B401A71EF5C625EB7E9FF6F6EE742A6508B66D7A2680
+  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.5.1/helium_0.16.5.1_x64-installer.exe
+  InstallerSha256: C2E0E69B0FA8329A0E548117CCAE0DBE6612993E0EB9DF3150C217C80D2BB532
   InstallerSwitches:
     Custom: /SYSTEM
 - Architecture: arm64
   Scope: user
-  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.2.1/helium_0.16.2.1_arm64-installer.exe
-  InstallerSha256: F10F741CC59FECFEFAF2D995444A8833433F2D7D32E7F4C7081DA057913869BD
+  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.5.1/helium_0.16.5.1_arm64-installer.exe
+  InstallerSha256: 9C2B5FCF6B6B5F4E04087D5739C66AA64FC5A2258498B497D17504D6A7C851F9
 - Architecture: arm64
   Scope: machine
-  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.2.1/helium_0.16.2.1_arm64-installer.exe
-  InstallerSha256: F10F741CC59FECFEFAF2D995444A8833433F2D7D32E7F4C7081DA057913869BD
+  InstallerUrl: https://github.com/imputnet/helium-windows/releases/download/0.16.5.1/helium_0.16.5.1_arm64-installer.exe
+  InstallerSha256: 9C2B5FCF6B6B5F4E04087D5739C66AA64FC5A2258498B497D17504D6A7C851F9
   InstallerSwitches:
     Custom: /SYSTEM
 ManifestType: installer
