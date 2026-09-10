@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Mozilla.Thunderbird.zh-CN
-PackageVersion: 153.0.3
+PackageVersion: 155.0.1
 PackageLocale: en-US
 Publisher: Mozilla
 PublisherUrl: https://www.mozilla.org/
@@ -23,7 +23,7 @@ Tags:
 ReleaseNotes: |-
   What’s Fixed
   fixed
-  Thunderbird could crash when saving a sent Exchange message
-ReleaseNotesUrl: https://www.thunderbird.net/thunderbird/153.0.3/releasenotes/
+  Empty filter search values matched every message
+ReleaseNotesUrl: https://www.thunderbird.net/thunderbird/155.0.1/releasenotes/
 ManifestType: defaultLocale
 ManifestVersion: 1.12.0

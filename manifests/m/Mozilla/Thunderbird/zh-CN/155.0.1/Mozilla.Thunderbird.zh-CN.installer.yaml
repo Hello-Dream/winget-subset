@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: Mozilla.Thunderbird.zh-CN
-PackageVersion: 153.0.3
+PackageVersion: 155.0.1
 InstallerType: nullsoft
 Scope: machine
 InstallModes:
@@ -22,15 +22,15 @@ FileExtensions:
 - eml
 - ics
 - wdseml
-ReleaseDate: 2026-08-11
+ReleaseDate: 2026-09-09
 Installers:
 - Architecture: x86
-  InstallerUrl: https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/153.0.3/win32/zh-CN/Thunderbird%20Setup%20153.0.3.exe
-  InstallerSha256: E7777E2AB166B9AA45FAA3348A660A515AD979F756B6EDA2202E9287A4260B32
-  ProductCode: Mozilla Thunderbird 153.0.3 (x86 zh-CN)
+  InstallerUrl: https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/155.0.1/win32/zh-CN/Thunderbird%20Setup%20155.0.1.exe
+  InstallerSha256: B81E1D069B04CD7CBCF650F7F4E8932CEEF71DF23EF6A9BACF37AA9CE6701B12
+  ProductCode: Mozilla Thunderbird 155.0.1 (x86 zh-CN)
 - Architecture: x64
-  InstallerUrl: https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/153.0.3/win64/zh-CN/Thunderbird%20Setup%20153.0.3.exe
-  InstallerSha256: A564325C131D994B9E701CE1AB2ACE69CC05BC290490A3563E8CA5DB613BC88F
-  ProductCode: Mozilla Thunderbird 153.0.3 (x64 zh-CN)
+  InstallerUrl: https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/155.0.1/win64/zh-CN/Thunderbird%20Setup%20155.0.1.exe
+  InstallerSha256: 6ED8796A9CE55C5AB4F4D3B11DE3393EDAA7F5D754A560D9187FA5227FAA0EE5
+  ProductCode: Mozilla Thunderbird 155.0.1 (x64 zh-CN)
 ManifestType: installer
 ManifestVersion: 1.12.0
