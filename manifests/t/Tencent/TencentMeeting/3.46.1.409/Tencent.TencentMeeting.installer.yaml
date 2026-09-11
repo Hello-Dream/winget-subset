@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: Tencent.TencentMeeting
-PackageVersion: 3.45.3.407
+PackageVersion: 3.46.1.409
 InstallerType: nullsoft
 Scope: machine
 InstallerSwitches:
@@ -24,14 +24,14 @@ FileExtensions:
 - wemtvidx
 - wxe1097d193e4320fd
 ProductCode: WeMeet
-ReleaseDate: 2026-08-21
+ReleaseDate: 2026-09-10
 ElevationRequirement: elevatesSelf
 Installers:
 - Architecture: x86
-  InstallerUrl: https://updatecdn.meeting.qq.com/cos/99260b2b02cc04cfe2cb1f57a703a9ca/TencentMeeting_0300000000_3.45.3.407.publish.exe
-  InstallerSha256: 87DF4857DE6D4E59F602BEC0A03B64CBC40AA81994B0950921C4C0C23738A362
+  InstallerUrl: https://updatecdn.meeting.qq.com/cos/58acab0a7aeee3ecdce3472b8d216958/TencentMeeting_0300000000_3.46.1.409.publish.exe
+  InstallerSha256: A78B2A6E4F24F5E80221754A76F8A15737DCB15EBFB550D1AD6DCA4FADDF5D71
 - Architecture: x64
-  InstallerUrl: https://updatecdn.meeting.qq.com/cos/afab755779a869494440bc1d2a9da32a/TencentMeeting_0300000000_3.45.3.407_x86_64.publish.exe
-  InstallerSha256: 8544F1DCCEC572977A6FE929DDD7A17F965CF0B36CCE0A45CF0840B7DE580838
+  InstallerUrl: https://updatecdn.meeting.qq.com/cos/e527f093f3f0e3de00701e82655de183/TencentMeeting_0300000000_3.46.1.409_x86_64.publish.exe
+  InstallerSha256: 3CCB6C2970B3C19FDCA21977862F4E10D9954060B5966AE36D96D645DF4696CB
 ManifestType: installer
 ManifestVersion: 1.12.0
