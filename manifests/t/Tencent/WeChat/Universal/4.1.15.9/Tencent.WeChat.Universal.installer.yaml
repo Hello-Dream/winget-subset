@@ -2,16 +2,17 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: Tencent.WeChat.Universal
-PackageVersion: 4.1.11.55
+PackageVersion: 4.1.15.9
 InstallerType: nullsoft
 Scope: machine
 UpgradeBehavior: install
 Protocols:
 - xweixin
 ProductCode: Weixin
+ReleaseDate: 2026-09-15
 Installers:
 - Architecture: x64
-  InstallerUrl: https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin_4.1.11.exe
-  InstallerSha256: C3032FEDF2E4025BF7EF87504FD98E46D0FD6DB4E5E82EA3D1D0B70E85143CD0
+  InstallerUrl: https://dldir1v6.qq.com/weixin/Universal/Windows/WeChatWin_4.1.15.exe
+  InstallerSha256: 2474CDBEF82C86F9266A24F7A10CDDB1C19589B76980C5BD745645E47D4C4952
 ManifestType: installer
 ManifestVersion: 1.12.0
