@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: JetBrains.Toolbox
-PackageVersion: 3.7.1.0
+PackageVersion: 3.8.1.0
 InstallerType: exe
 Scope: user
 InstallModes:
@@ -16,13 +16,13 @@ UpgradeBehavior: install
 Protocols:
 - jetbrains
 ProductCode: Toolbox
-ReleaseDate: 2026-08-20
+ReleaseDate: 2026-09-17
 Installers:
 - Architecture: x64
-  InstallerUrl: https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.7.1.87197.exe
-  InstallerSha256: DAB3C70B2F18CC68FC2F30AC632CB91459FB673BA0142AE6EDDF4ED400F5A03A
+  InstallerUrl: https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.8.1.88030.exe
+  InstallerSha256: C3D119512751309369B41BDE0E7C6C20B73DD58E2A5A13E5549103B5C813E1E6
 - Architecture: arm64
-  InstallerUrl: https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.7.1.87197-arm64.exe
-  InstallerSha256: A99C4DE7A9BF15E487696084E37B8D361E1EB4D93DBB16ACFE376FE4BF43CBE3
+  InstallerUrl: https://download.jetbrains.com/toolbox/jetbrains-toolbox-3.8.1.88030-arm64.exe
+  InstallerSha256: 172B6E029F7ED7D310494993A462A446B3EA3B18F65520A9AEFE714E56138FB5
 ManifestType: installer
 ManifestVersion: 1.12.0
