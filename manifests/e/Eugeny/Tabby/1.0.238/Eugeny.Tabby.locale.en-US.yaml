@@ -1,8 +1,8 @@
-# Created with YamlCreate.ps1 Dumplings Mod
+# Created with komac v2.16.0
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
 
 PackageIdentifier: Eugeny.Tabby
-PackageVersion: 1.0.234
+PackageVersion: 1.0.238
 PackageLocale: en-US
 Publisher: Eugene Pankov
 PublisherUrl: https://github.com/Eugeny
@@ -36,19 +36,24 @@ Tags:
 - terminal
 - terminus
 ReleaseNotes: |-
-  Security fixes
-  GHSA-m937-jm93-pfp6
-  - Dragging and dropping a file with a specially crafted name onto the terminal could cause the terminal to execute an arbitrary command contained in the file name.
   Features
-  - auto-sudo-password multi language and sudo-rs support (#11019) #11019 (Ponder)
-  - add 'Export to file' option to terminal context menu (#11109) #11109 (Utkarsh Adhran)
+  - feat(settings): label a plugin's vault secret by its key's description by @meanaverage in #11765
   Fixes
-  - improve transfer menu readability (#11272) #11272 (mouse)
-  - b82ac4c: Make macOS build fail if code signing fails (#11255) (Copilot) #11255
-  - b0c2f5f: handle keytar password load errors (Eugene)
-  - 012a62d: Fix CLI crashes on Wayland due to unhandled X11 error in Glasstron (#11264) (Chris McGrath) #11264
-  - 03e9aa0: fixed #11283 - missing terminal titles (Eugene)
-ReleaseNotesUrl: https://github.com/Eugeny/tabby/releases/tag/v1.0.234
+  - fix(terminal): unbounded O(n²) output buffer for tabs that were never focused by @meanaverage in #11722
+  - fix(terminal): every closed tab leaks its terminal (WebGL cursor blink timer never disposed) by @meanaverage in #11720
+  - fix(terminal): closed sessions leak via PTY IPC listeners (destroy() re-entrancy) by @meanaverage in #11719
+  - fix(terminal): send current terminal size in the deferred initial resize by @anseltaft in #11760
+  - fix(terminal): don't steal focus from modal dialog inputs by @siparker in #11745
+  - fix(core): don't fire a hotkey twice for one keystroke by @bptrsn in #11769
+  - fix(app): keep the window draggable by its tab bar while a dialog is open by @meanaverage in #11766
+  - fix(ssh): pass PuTTY (.ppk) private keys to WinSCP without converting them by @manjotsc in #11767
+  New Contributors
+  - @meanaverage made their first contribution in #11719
+  - @siparker made their first contribution in #11745
+  - @manjotsc made their first contribution in #11767
+  - @bptrsn made their first contribution in #11769
+  Full Changelog: v1.0.237...v1.0.238
+ReleaseNotesUrl: https://github.com/Eugeny/tabby/releases/tag/v1.0.238
 Documentations:
 - DocumentLabel: Wiki
   DocumentUrl: https://github.com/Eugeny/tabby/wiki
