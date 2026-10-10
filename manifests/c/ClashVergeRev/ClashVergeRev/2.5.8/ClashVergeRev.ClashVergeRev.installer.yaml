@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.12.0.schema.json
 
 PackageIdentifier: ClashVergeRev.ClashVergeRev
-PackageVersion: 2.5.5
+PackageVersion: 2.5.8
 InstallerLocale: en-US
 InstallerType: nullsoft
 Scope: machine
@@ -10,17 +10,17 @@ UpgradeBehavior: install
 FileExtensions:
 - clash
 ProductCode: Clash Verge
-ReleaseDate: 2026-09-22
+ReleaseDate: 2026-10-09
 AppsAndFeaturesEntries:
 - ProductCode: Clash Verge
 InstallationMetadata:
   DefaultInstallLocation: '%ProgramFiles%\Clash Verge'
 Installers:
 - Architecture: x64
-  InstallerUrl: https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.5/Clash.Verge_2.5.5_x64-setup.exe
-  InstallerSha256: B00CEFD93F4ABAAF41F0DC62B9F441AE40F4E47D68590E58CB54E2EB5A11A4F3
+  InstallerUrl: https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.8/Clash.Verge_2.5.8_x64-setup.exe
+  InstallerSha256: 821C0F5957F84C8F7D14532044840E8280D708AF24A6A143DB360B49BD1E7302
 - Architecture: arm64
-  InstallerUrl: https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.5/Clash.Verge_2.5.5_arm64-setup.exe
-  InstallerSha256: C12FDA8497BE4876F76ED05CBB0B4DE2861E09EE9D9B0FFD17684CFEB5A743A1
+  InstallerUrl: https://github.com/clash-verge-rev/clash-verge-rev/releases/download/v2.5.8/Clash.Verge_2.5.8_arm64-setup.exe
+  InstallerSha256: 077EFAB7874A6BE7C48630D19C941EF679FA265F79C243F9D20CE5878EB5A943
 ManifestType: installer
 ManifestVersion: 1.12.0
